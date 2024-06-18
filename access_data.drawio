@@ -1,0 +1,37 @@
+<mxfile host="app.diagrams.net" modified="2024-06-04T08:40:35.950Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="IfM87T2ZfbT1e4qVd4gW" version="24.4.13" type="device">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="1914" dy="976" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="utWPcHmu2K7LS_2S_HRB-1" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;u style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 24px;&quot;&gt;Accessing Data (&lt;/font&gt;&lt;/u&gt;&lt;/b&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;&lt;u style=&quot;&quot;&gt;A-series)&lt;/u&gt;&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="397.5" y="40" width="320" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="qkU0JbKQ6EuipafsIjLe-33" value="&lt;p data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;font size=&quot;1&quot; style=&quot;&quot; color=&quot;#000000&quot;&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;A101: Explore phenotype tables&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="400" y="120" width="317.5" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="qkU0JbKQ6EuipafsIjLe-34" value="&lt;p data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A102: Explore participant data&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="402.5" y="200" width="315" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="qkU0JbKQ6EuipafsIjLe-35" value="&lt;p data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A103: Export participant data*&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="400" y="280" width="318.75" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="qkU0JbKQ6EuipafsIjLe-36" value="&lt;p data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A104: Explore phenotype tables&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="402.5" y="360" width="317.5" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="qkU0JbKQ6EuipafsIjLe-37" value="&lt;p data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A105: Export participant data&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="402.5" y="440" width="321.25" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="-CC2sMJTHef0MXigFTxT-0" value="&lt;p style=&quot;font-size: 18px;&quot; data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A107: &lt;/font&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;OMOP data: hypertension case-study&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="402.5" y="600" width="321.25" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cBM6i3Q44ZDb_svsSfaw-12" value="&lt;p data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A106: Hypertension data&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="402.5" y="520" width="321.25" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cBM6i3Q44ZDb_svsSfaw-13" value="&lt;p style=&quot;&quot; data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A108: Constructing the OLINK dataset&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="401.25" y="680" width="317.5" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
