@@ -8,7 +8,7 @@ In order to initiate these notebooks on the RAP please see instructions at the b
 
 ![**Figure 1. A-series notebooks in this repository.** *Note: running A103 is required to produce data files for subsequent genomics (G-series) analyses.](access_data.jpg)
 
-\
+
 
 
 ### 
