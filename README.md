@@ -137,11 +137,11 @@ A108 Constructing the OLINK dataset (R; Spark)
 
 **Run info:**
 
--   runtime: 10min
+-   runtime: 20min
 
--   recommended instance: mem1_ssd1_v2_x8
+-   recommended instance: mem1_hdd1_v2_x8
 
--   estimated cost: \<£0.15
+-   estimated cost: \<£0.30
 
 
 ## A106 Hypertension data (R; Spark)
