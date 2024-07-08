@@ -125,7 +125,7 @@ A108 Constructing the OLINK dataset (R; Spark)
 -   estimated cost: \<£0.20
 
 
-## A105 Export participant data to R (R; Spark)
+## A105 Export participant data to R (R; Spark) git init
 
 **Scope:** This notebook shows how to retrieve and export phenotypic data in R and explains how to retrieve and save phenotypic data for further analyses, such as genome-wide association studies or epidemiological studies. We will use the `reticulate` R package to connect to Python and call the `dxdata.connect` function, which connects to the Spark database. Next, we will convert a Python (Spark data frame) object to an R object (tibble) and export data to a tabular text file. This file can be used as an input to external tools, such as PLINK or REGENIE.
 
