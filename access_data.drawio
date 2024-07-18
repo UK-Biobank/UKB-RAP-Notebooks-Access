@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-06-04T08:40:35.950Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="IfM87T2ZfbT1e4qVd4gW" version="24.4.13" type="device">
+<mxfile host="Electron" modified="2024-07-18T09:09:43.179Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.5.3 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="o2xo1d2xSHJQlUdYXGOw" version="24.5.3" type="device">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="1914" dy="976" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1098" dy="828" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -25,11 +25,17 @@
         <mxCell id="-CC2sMJTHef0MXigFTxT-0" value="&lt;p style=&quot;font-size: 18px;&quot; data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A107: &lt;/font&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;OMOP data: hypertension case-study&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="402.5" y="600" width="321.25" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="cBM6i3Q44ZDb_svsSfaw-12" value="&lt;p data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A106: Hypertension data&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="cBM6i3Q44ZDb_svsSfaw-12" value="&lt;p data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A106: Hypertension data&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="402.5" y="520" width="321.25" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="cBM6i3Q44ZDb_svsSfaw-13" value="&lt;p style=&quot;&quot; data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A108: Constructing the OLINK dataset&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="cBM6i3Q44ZDb_svsSfaw-13" value="&lt;p style=&quot;&quot; data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A108: Constructing the OLINK dataset&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="401.25" y="680" width="317.5" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="HeJSG9g4FQdalp3eTaOC-0" value="&lt;p style=&quot;&quot; data-pm-slice=&quot;1 1 [&amp;quot;body&amp;quot;,null]&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot; color=&quot;#000000&quot;&gt;A109: Find imaging bulk files&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;rounded=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="404.38" y="760" width="317.5" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="HeJSG9g4FQdalp3eTaOC-1" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="740" y="703" width="20" height="160" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
