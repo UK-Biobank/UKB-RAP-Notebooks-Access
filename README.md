@@ -232,11 +232,11 @@ Next, we examine and visualize the data -- the empirical probability densities f
 
 **Run info:**
 
-- runtime: dependent on number of fields 
+- runtime: ~20 minutes
 
 - recommended instance: mem1_ssd1_v2_x8
 
-- cost: dependent on number of fields 
+- cost: ~£0.05
 
 
 ### 
