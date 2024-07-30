@@ -39,6 +39,7 @@ A107 OMOP data: hypertension case-study (R; Spark)
 
 A108 Constructing the OLINK dataset (R; Spark)
 
+A109 Find imaging bulk files (Bash; Python)
 
 ## **Python and R libraries**
 
@@ -217,6 +218,25 @@ Next, we examine and visualize the data -- the empirical probability densities f
 
 -   cost: \<£0.30
 
+
+## A109 Find imaging bulk files (Bash; Python)
+
+**Scope:** This notebook provides an example of how to identify participants with a bulk imaging field and download these files to an instance. This notebook uses bash and python
+
+
+**Notebook file:** A109_Find-imaging-bulk-files.ipynb
+
+**Dependency** 
+
+- **NA**
+
+**Run info:**
+
+- runtime: ~20 minutes
+
+- recommended instance: mem1_ssd1_v2_x8
+
+- cost: ~£0.05
 
 
 ### 
