@@ -1,0 +1,214 @@
+---
+title: "Extracting fields for use in Table Exporter"
+output: html_notebook
+---
+
+# Overview 
+
+The Table Exporter tool takes a list of UKB-RAP field names and outputs a csv containing these to your project space. UKB-RAP field names in the main (participant) entity take the format:
+
+**p** *field_id* **i** *ins_index* **a** *arr_index*
+
+where field_id is the UK Biobank [field ID](https://biobank.ndph.ox.ac.uk/showcase/browse.cgi), ins_index is the [instance index](https://biobank.ndph.ox.ac.uk/showcase/help.cgi?cd=instances) and arr_index is the [array index](https://biobank.ndph.ox.ac.uk/showcase/help.cgi?cd=array). For more information, see [UK Biobank Data on the Research Analysis Platform](https://dnanexus.gitbook.io/uk-biobank-rap/getting-started/working-with-ukb-data).
+
+It is useful to programmatically identify all UKB-RAP field names associated with UK Biobank fields, especially if the field has many arrays or many fields are required. This notebook helps to generate a file that can be used as an input to Table Exporter.
+
+# Requirements
+
+- Start an RStudio session
+
+### Run Information
+
+- Runtime: 5 minutes (+ 10 minutes for Table Exporter job)
+- Recommended Instance: mem1_hdd1_v2_x8
+- Estimated Cost: < £0.10 (+ < £0.10 for Table Exporter job)
+
+Please note that increasing the number of fields and/or categories to be exported will increase the time and cost required for the Table Exporter job.
+
+* It is **crucial** that you select the **entity** (i.e. participant, olink...) you are extracting your data from before running the table-exporter job, whether on the GUI or on the CLI.  
+
+* Even if you are extracting a large number of fields (>1000 fields) from the participant table, the job should only cost you around 0.05£ and take approximately 15 min. 
+
+
+### Important note
+
+-   There is not a set duration for your RStudio session. Once you finish running this notebook, make sure **you terminate** your session to avoid incurring additional costs, even if you are not running any analysis.
+
+# Set Up Required Packages
+
+```{r setup}
+
+system("pip install dxpy --upgrade")
+system("pip install pandas==1.3.5")
+
+pkg <- c("data.table", "dplyr", "stringr")
+
+# Check if packages are not installed and assign the
+# names of the packages not installed to the variable new.pkg
+new.pkg <- pkg[!(pkg %in% installed.packages())]
+# If there are any packages in the list that aren't installed,
+# install them
+if (length(new.pkg)) {
+  install.packages(new.pkg, repos = "http://cran.rstudio.com")
+}
+```
+
+# Select Category or Field of Interest
+
+The input to this notebook is a vector UK Biobank category(s) and/or field(s) of interest. Categories of interest can be identified using the [UK Biobank Showcase](https://biobank.ndph.ox.ac.uk/showcase/browse.cgi?id=-2). Adding a category will allow export of all fields **directly below** that category in the hierarchy.
+
+The file_name variable will be used as a prefix for the files generated in this notebook. By default, this will be set as "table-exporter_*Current Date*".
+
+* If you wish to extract a large list of fields/categories, the file name will be too long. You can rename it at the end of the extraction process for simplification.
+
+For illustration purposes only, categories [1839 (Protein Biomarkers)](https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=1839) and [100048 (Pain)](https://biobank.ndph.ox.ac.uk/showcase/label.cgi?id=100048), as well as fields [4079 (Diastolic blood pressure)](https://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=4079) and [100710 (Beer/cider intake)](https://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=100710) from the diet questionnaire, were selected.
+
+```{r}
+
+# List of categories to extract fields from
+category_of_interest <- c(1839, 100048)
+
+# Individual fields you want to extract
+fields_of_interest <- c(4079,100710)
+
+
+# If you don't wish to extract a category or field, set as NULL
+
+if(!exists("category_of_interest")){
+  category_of_interest = NULL
+}
+
+if(!exists("fields_of_interest")){
+  fields_of_interest = NULL
+}
+
+# Generate a file name based on the current date and time. This corresponds to the name of the files that will be created in the project space (list of fields and data extracted)
+# The name will be in the format "table-exporter_YYYY-MM-DD_HH-MM-SS". 
+# If you want to customize the file name, you can modify the 'file_name' variable.
+ file_name <- sprintf("table-exporter_%s", format(Sys.time(), "%Y-%m-%d_%H-%M-%S"))
+ 
+```
+
+# Find fields in category
+
+The field.tsv file in the Showcase metadata folder contains [Schema 1](https://biobank.ndph.ox.ac.uk/showcase/schema.cgi?id=1) - information about data field properties, including the category it is contained within. This information is used to extract a list of UK Biobank fields in the categories of interest.
+
+*Note that files from the project can be read in using the /mnt/project/ file path*
+
+```{r}
+
+category_schema <- data.table::fread('/mnt/project/Showcase metadata/category.tsv')
+
+field_schema <- data.table::fread('/mnt/project/Showcase metadata/field.tsv')
+
+
+for (cat in category_of_interest) {
+  if (!cat %in% category_schema$category_id) {
+    stop(paste0(cat, ' is not a valid UK Biobank category.'))
+  }
+}
+
+
+for (field in fields_of_interest) {
+  if (!field %in% field_schema$field_id) {
+    stop(paste0(field, ' is not a valid UK Biobank field'))
+  }
+}
+
+
+category_fields_extract <- field_schema |>
+    dplyr::filter(main_category %in% category_of_interest) |>
+    dplyr::pull(field_id)
+
+
+category_fields = c(category_fields_extract, fields_of_interest)
+
+```
+
+# Get the Dataset Dictionary
+
+The UKB-RAP column names can be found in the dataset dictionary, which is accessed via the [command line utility](https://documentation.dnanexus.com/user/helpstrings-of-sdk-command-line-utilities) dx extract_dataset. To use this utility, it is necessary to find the dataset ID and dataset prefix, for which a function is provided below.
+
+```{r}
+
+get_dataset_id <- function() {
+    project <- Sys.getenv("DX_PROJECT_CONTEXT_ID")
+    record <- system("dx find data --class record | grep dataset", intern = TRUE)
+    dataset <- list()
+    dataset$id <- paste0(project, ":", stringr::str_extract(record, 'record.*(?=\\))'))
+    dataset$prefix <- stringr::str_extract(record, 'app\\S*')
+    return(dataset)
+}
+
+dataset <- get_dataset_id()
+
+if (!file.exists(paste0(dataset$prefix, '.data_dictionary.csv'))) {
+  system(paste0("dx extract_dataset ", dataset$id, " -ddd"), intern = TRUE)
+}
+
+```
+
+The data dictionary file is read in below. This file is automatically named using a prefix unique to your dataset, which is found using the above function.
+
+```{r}
+
+datadict <- data.table::fread(paste0(dataset$prefix,".data_dictionary.csv"))
+
+```
+
+# Extract UKB-RAP column names
+
+A regex using the field ID is used to find the UKB-RAP column names in the dataset dictionary. This list is then written as a file with one column name on each line, which is the necessary format for input to Table Exporter.
+
+Please note that the following function is specific to the fields format in the participant entity table.
+
+```{r}
+
+fields_for_id <- function(field) {
+    
+    regex <- paste0('^p', field, '(?![0-9])')
+    fields <- dplyr::filter(datadict, stringr::str_detect(name, regex)) |>
+        dplyr::pull(name)
+    return(fields)
+}
+
+all_columns <- c('eid', unlist(lapply(category_fields, fields_for_id)))
+
+write.table(all_columns, paste0(file_name, '_fields.txt'), row.names = F, col.names = F, quote = F)
+
+```
+
+# Upload File to Project
+
+The file is uploaded to the project for use with the Table Exporter App.
+
+```{r}
+
+file_upload <- system(paste0('dx upload ', file_name, '_fields.txt'), intern = TRUE)
+
+```
+
+# Run Table Exporter
+
+[Table Exporter](https://ukbiobank.dnanexus.com/app/table-exporter) can be run in the below code block. This will result in a file called '<file_name>\_data.csv' in your project space, with all columns of data in the selected categories included, and encoded values replaced with their meanings. Note that this starts a separate job in your project. You can track this on the Monitor page. You do not need to keep RStudio open while the Table Exporter job is running - you can terminate the session. 
+
+Once the job is done and your file is saved in your project space, the **A111_Import_Analyse_participant_data.Rmd** notebook gives an overview on uploading your data into an RStudio session and useful tips on running the session.
+
+The parameter "header_style" is set to FIELD-TITLE to change the column names to the name of the field as show in the cohort browser. The default option is FIELD-NAME. All other options are kept as default.
+
+```{r}
+
+file_id <- stringr::str_extract(file_upload[[1]], 'file.*')
+
+system(paste0("dx run table-exporter -idataset_or_cohort_or_dashboard=", dataset$id, " -ifield_names_file_txt=", file_id, " -ientity=participant -ioutput=", file_name, "_data", " -iheader_style=FIELD-TITLE"), intern = TRUE)  
+
+```
+
+Table Exporter can also be run manually from the tools library. Instructions on using Table Exporter interactively can be found at [Table Exporter](https://ukbiobank.dnanexus.com/app/table-exporter).
+
+
+**Note:** You can also use table exporter to extract data from other entity tables such as Olink and GP tables. This is done by setting the input parameter `entity` to the entity you'd like to extract data from. The data dictionary also includes the list of fields included in each entity table.
+
+- It is essential that you select the entity you are extracting data from before running your job. On the GUI, the entity parameter can be found in the **Advanced Options** section, on the CLI, it can be set with *-ientity*.
+
+**Troubleshooting:** If your table exporter job fails with an out of memory error, increase the instance size the job is running on by adding the --instance-type flag with a larger instance, or adjust the instance type when running from the tools library following [these instructions](https://documentation.dnanexus.com/getting-started/key-concepts/apps-and-workflows#configure-runtime-settings).
