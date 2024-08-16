@@ -1,0 +1,247 @@
+---
+title: "Importing and analysing UKBiobank data on the RAP using RStudio"
+output: html_notebook
+---
+
+# Overview
+
+This notebook covers the essential steps for initiating an RStudio session, importing and reading data, and provides useful tips for running an RStudio session. Some code examples are also provided to help explore the UKB data.
+
+The Research Analysis Platform offers various tools to extract UKBiobank phenotypic data. The notebook "Extracting fields for use in Table Exporter" (**A110_Export_participant_data.Rmd**) is a step-by-step guide on how to extract data using table exporter on RStudio by selecting the field ids or the category of interest.
+
+The Table Exporter tool takes a list of UKB-RAP field names and outputs a csv containing the data within the fields specified to your project space.
+
+You can also extract UKB data using R on JupyterLab using the dxdata function `retrieve_fields`. This is covered in the Notebook **A105_Export-participant-data_R.ipynb**.
+
+
+# Requirements
+
+-   Start an RStudio session
+-   To run this notebook, you **must** have extracted data into your project space. The **A110_Export_participant_data.Rmd** or **A105_Export-participant-data_R.ipynb** notebooks provide guidance on extracting the data using R.
+
+### Run information
+
+-   Runtime: 10 mins
+-   Recommended instance: mem1_hdd1_v2_x8
+-   Estimated cost: < £0.10
+
+### Important note
+
+-   There is not a set duration for your RStudio session. Once you finish your analysis and have uploaded the files you would like to save, make sure **you terminate** your session to avoid incurring additional costs, even if you are not running any analysis.
+
+# Set Up Required Packages
+
+```{r setup}
+
+pkg <- c("data.table", "dplyr", "ggplot2", "janitor", "bit64")
+
+# Identify uninstalled packages that are required
+new.pkg <- pkg[!(pkg %in% installed.packages())]
+# Install any packages from the list that are not currently installed
+if (length(new.pkg)) {
+  install.packages(new.pkg, repos = "http://cran.rstudio.com")
+}
+
+# Load packages
+library(data.table) # fast and efficient data handling
+library(dplyr) # for data manipulation
+library(ggplot2) # for data visualization
+library(janitor) # data cleaning utilities
+
+```
+
+-   To avoid installing packages each time you initialise a session, you can save the workspace you are working in using the dx command [`dx-backup-folder`](https://dnanexus.gitbook.io/uk-biobank-rap/working-on-the-research-analysis-platform/using-rstudio-on-the-research-analysis-platform#backing-up-workspace-to-the-project) and restore it using [`dx-restore-folder`](https://dnanexus.gitbook.io/uk-biobank-rap/working-on-the-research-analysis-platform/using-rstudio-on-the-research-analysis-platform#restoring-a-workspace).
+
+# Import data
+
+Your working environment in your RStudio session is separate from your project space and you need to import your data to your environment.
+
+### Methods to import data into your session's workspace
+
+1.  You can use the command [`dx download`](https://documentation.dnanexus.com/user/objects/uploading-and-downloading-files/small-sets-of-files/downloading-using-dx) followed by the file-ID of your file containing your data.
+
+You can find the file-ID of your file when you select you file in your project workspace. It is listed with the file's information on the tab on the right.
+
+```{r Download data into the RStudio workspace using the file-ID}
+
+file_ID <- "file-a1b2C3d4E5F6" # Replace with the ID of the file you'd like to download into your session's workspace 
+
+system(paste0("dx download ", file_ID), intern = TRUE)
+
+```
+
+2.  You can use the project ID and file name after `dx download`.
+
+```{r Download data into the RStudio workspace using the project ID and file name}
+
+project <- Sys.getenv("DX_PROJECT_CONTEXT_ID")
+
+system(paste0("dx download ", project, ":/data.csv"), intern = TRUE) # make sure to replace "data" with the name of your file
+
+
+```
+
+* The name of your file in your folder must be UNIQUE. The RAP allows to have files with duplicated names. 
+* If you are trying to read a file that has a duplicated name, this command is going to give an error.
+
+3.  You can read your file by providing its path in the project space. You can use mnt/project to access the main project space. With this method, your data is directly read into R.
+
+```{r Download data into the RStudio workspace using mnt/project}
+
+data <- fread("/mnt/project/data.csv") # make sure to replace "data" with the name of your file
+
+```
+
+
+* The name of your file in your folder must be UNIQUE. The RAP allows to have files with duplicated names. 
+* If you are trying to read a file that has a duplicated name, this command is going to give an error.
+
+### Read data into an R object
+
+After importing your data into your working environment, you will need to read it into R as a data.frame object. 
+
+* This step is only needed if you used method 1 or 2 to get the data. If you used the third method, your data is already loaded in your working environment.
+
+```{r Read a data.frame object}
+
+data <- fread("data.csv") # make sure to replace data.csv with the name of your file in the session workspace
+
+```
+
+If you used the default header-style option (FIELD-NAME) when using table exporter to extract data, column names will be in the form:
+
+**p** *field_id* **i** *ins_index* **a** *arr_index*
+
+If you selected the FIELD-TITLE (i.e. the name of the field is as shown on the cohort browser), column names will include special characters and spaces that might cause errors within your analysis. You can use the following function to remove them.
+
+```{r Optional - use janitor package to clean variable names}
+# This function replaces spaces with underscores, converts all  characters to lowercase and remove special characters
+data <- janitor::clean_names(data)
+
+# This function is similar as:
+clean_column_names <- function(df) {
+  
+  # for the column names in `data`
+  colnames(df) <- gsub(" ", "_", colnames(df)) # replace spaces with underscores
+  colnames(df) <- gsub("[^[:alnum:]_]", "", colnames(df)) # remove special characters (except alphanumeric characters and underscores)
+    return(df)
+}
+
+#data = clean_column_names(data) # replace 'data' with your dataframe name
+
+```
+
+
+# Explore data
+
+After importing your data as a `data.frame` object, you can explore your data and perform your analysis
+
+```{r Explore data structure}
+# Basic commands to explore your data
+head(data) # Look at first rows of your data frame
+str(data) # Structure of the data - variable types
+dim(data) # Dimensions of your dataframe
+ 
+```
+
+### Missing values
+
+In some cases, it is useful to know the number of missing values in each of the columns of your data frame.
+
+```{r Count of missing values}
+
+# Table showing the number of missing values in each column (NA or empty string)
+missing_values_count <- sapply(data, function(x) sum(is.na(x) | x == ""))
+missing_values_df <- data.frame(
+  column_name = names(missing_values_count),
+  missing_count = missing_values_count, row.names = NULL
+  
+)
+
+View(missing_values_df)
+
+```
+
+### Numerical variables
+
+Look at summary statistics for numerical variables:
+
+```{r Summary statistics}
+# Function that takes as input your data and returns a dataframe that includes summary statistics of the numerical variables
+
+get_summary_stats <- function(df) {
+  
+  num_df <- df %>% select_if(is.numeric) # select only numerical variables
+  
+  # Calculate summary statistics
+  summary_stats_df <- data.frame(
+    column_name = names(num_df),
+    mean = sapply(num_df, function(x) mean(x, na.rm = TRUE)),
+    sd = sapply(num_df, function(x) sd(x, na.rm = TRUE)),
+    min = sapply(num_df, function(x) min(x, na.rm = TRUE)),
+    max = sapply(num_df, function(x) max(x, na.rm = TRUE)),
+    na_count = sapply(num_df, function(x) sum(is.na(x))),
+    row.names = NULL
+  )
+  
+  return(summary_stats_df)
+}
+
+summary_statistics_df <- get_summary_stats(data) # replace data with your dataframe name
+View(summary_statistics_df)
+
+```
+
+### Categorical variables
+
+Histograms for categorical variables
+
+```{r Histogram plots}
+
+# Function that takes as input you data and returns histogram plots for categorical columns
+plot_histograms <- function(df) {
+
+    cat_only <- df %>% select_if(is.factor) # Select only categorical columns
+  
+  # Plot histogram for each categorical column
+  for (cat_var in names(cat_only)) {
+    p <- ggplot(df, aes(.data[[cat_var]])) +
+      geom_bar() +
+      labs(title = paste("Histogram of", cat_var), x = cat_var, y = "Count") +
+      theme_minimal()
+    print(p)
+  }
+}
+
+# Select categorical variables you want to plot (e.g. Sex, seropositivity for HIV-1)
+categorical_data_plot <- data %>%
+    mutate_if(is.character, as.factor) %>% # convert to correct variable type
+  select_if(is.factor) %>% # select only categorical variables
+  #  select(c("var1", "var2", "var3")) %>% # list of the variables you want to plot - change to their actual names
+  select(1:3) # select only the first 3 variables
+  
+
+# Plot histograms
+plot_histograms(categorical_data_plot)
+
+```
+
+
+
+# Upload data 
+
+When you finish your analysis, you might wish to save your work in your project workspace.
+
+Because your working environment and project space are separate, you also have to upload the files your created during you RStudio session using the command [`dx upload`](https://documentation.dnanexus.com/user/objects/uploading-and-downloading-files/small-sets-of-files/uploading-using-dx) to avoid losing them once your terminate your session.
+
+
+```{r Upload files into project workspace}
+
+write.csv(summary_statistics_df, "summary_statistics_df.csv", row.names = F, quote = F) # you need to save your file first in your session environment
+
+file_upload <- system('dx upload summary_statistics_df.csv', intern = TRUE) # upload file into project
+
+
+```
+
+
