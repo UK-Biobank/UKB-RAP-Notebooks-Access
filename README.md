@@ -46,7 +46,7 @@ A109 Find imaging bulk files (Bash; Python)
 
 A110 Export participant data (R; RStudio)
 
-A109 Import and Analyse participant data (R; RStudio)
+A111 Import and Analyse participant data (R; RStudio)
 
 
 ## **Python and R libraries**
