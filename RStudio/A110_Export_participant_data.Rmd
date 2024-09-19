@@ -1,6 +1,8 @@
 ---
 title: "Extracting fields for use in Table Exporter"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 # Overview 
@@ -22,6 +24,7 @@ It is useful to programmatically identify all UKB-RAP field names associated wit
 - Runtime: 5 minutes (+ 10 minutes for Table Exporter job)
 - Recommended Instance: mem1_hdd1_v2_x8
 - Estimated Cost: < £0.10 (+ < £0.10 for Table Exporter job)
+- Tier required: any tier for the example fields 4079 and 100710, for other fields the project tier should be as high as the field tier
 
 Please note that increasing the number of fields and/or categories to be exported will increase the time and cost required for the Table Exporter job.
 

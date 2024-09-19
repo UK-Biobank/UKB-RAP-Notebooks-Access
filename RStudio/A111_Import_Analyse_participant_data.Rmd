@@ -24,6 +24,7 @@ You can also extract UKB data using R on JupyterLab using the dxdata function `r
 -   Runtime: 10 mins
 -   Recommended instance: mem1_hdd1_v2_x8
 -   Estimated cost: < £0.10
+-   Cost tier: any tier 
 
 ### Important note
 
