@@ -216,15 +216,15 @@ Next, we examine and visualize the data -- the empirical probability densities f
 
 **Dependency**
 
--   **NA**
+-   A Spark instance
 
 **Run info:**
 
 -   runtime: 15min
 
--   recommended instance: mem1_hdd1_v2_x8
+-   recommended instance: mem1_hdd1_v2_x16
 
--   cost: \<£0.30
+-   cost: \<£0.50
 
 
 ## A109 Find imaging bulk files (Bash; Python)
