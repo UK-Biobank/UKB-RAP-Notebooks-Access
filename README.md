@@ -42,7 +42,7 @@ A107 OMOP data: hypertension case-study (R; Spark)
 
 A108 Constructing the OLINK dataset (R; Spark)
 
-A109 Find imaging bulk files (Bash; Python)
+A109 Find participant bulk files (Bash; Python)
 
 A110 Export participant data (R; RStudio)
 
