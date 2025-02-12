@@ -1,0 +1,60 @@
+{
+  "name": "spark-example-applet",
+  "title": "spark-example-applet",
+  "summary": "An example Spark applet for the UKB-RAP",
+  "dxapi": "1.0.0",
+  "version": "0.0.1",
+  "inputSpec": [
+    {
+      "name": "field_name",
+      "class": "string",
+      "optional": false,
+      "help": ""
+    }
+  ],
+  "outputSpec": [
+    {
+      "name": "mean",
+      "class": "string",
+      "help": ""
+    }
+  ],
+  "runSpec": {
+    "timeoutPolicy": {
+      "*": {
+        "hours": 48
+      }
+    },
+    "interpreter": "bash",
+    "file": "src/test-spark.sh",
+    "distribution": "Ubuntu",
+    "release": "20.04",
+    "version": "0",
+    "execDepends": [
+      {"name" : "pyspark",
+      "package_manager": "pip"},
+      {"name" : "pandas",
+       "package_manager": "pip"}
+    ]
+  },
+  "access": {
+    "network": [
+      "*"
+    ],
+    "project": "CONTRIBUTE"
+  },
+  "regionalOptions": {
+    "aws:eu-west-2": {
+      "systemRequirements": {
+        "*": {
+          "instanceType": "mem1_ssd1_v2_x4",
+          "clusterSpec": {
+            "type": "dxspark",
+            "version": "3.2.3",
+            "initialInstanceCount": 1
+          }
+        }
+      }
+    }
+  }
+}
