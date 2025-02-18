@@ -2,9 +2,12 @@
 
 
 The A-series (**Accessing Data**) notebooks found in this repository focus on performing basic operations to access and examine UKB phenotypic data. These give an overview of how to link and manipulate the phenotypic databases on the RAP that are likely to be interfaced with the genomic (or other; e.g. imaging) resources. Some of the data files outputted from these A-series notebooks are required for the main analytical repositories found elsewhere on these pages.
-
-
 In order to initiate these notebooks on the RAP please see instructions at the bottom of this page.
+
+
+This repository also includes simple **applets** within the *dnanexus-applets* folder that give examples of the functionality available in RAP applets. DNAnexus have [documentation and tutorials on applet building](https://documentation.dnanexus.com/developer/apps) available.
+
+# A-series Notebooks 
 
 ![**Figure 1. A-series notebooks in this repository.** *Note: running A103 is required to produce data files for subsequent genomics (G-series) analyses.](access_data.jpg)
 
@@ -287,7 +290,7 @@ Next, we examine and visualize the data -- the empirical probability densities f
 
 ### 
 
-# How to run Jupyter notebooks on the RAP
+## How to run Jupyter notebooks on the RAP
 
 Follow the steps below to run this Jupyter Notebook:
 
@@ -304,7 +307,7 @@ Follow the steps below to run this Jupyter Notebook:
 -   Press "Ctrl" + "Enter" to run code cells. An hourglass icon on the JupyterLab tab in your browser indicates that the code is running. Please note that depending on number of chromosomes and SNPs and your instance type, code may take some time to run.
 
 
-# How to run RStudio notebooks on the RAP
+## How to run RStudio notebooks on the RAP
 
 Follow the steps below to run this RStudio Notebook:
 
@@ -319,4 +322,20 @@ Follow the steps below to run this RStudio Notebook:
 -   On the new page, click on "New Session" and select a name for the session. You can open multiple sessions with one environment.
 -   An RStudio session will open. If you have saved your notebook under your project environment, you can import it into your session using the terminal by typing [`dx download`](https://documentation.dnanexus.com/user/objects/uploading-and-downloading-files/small-sets-of-files/downloading-using-dx) followed by the file-ID of the notebook (you can find the file-ID in your project space, when selecting the notebook, on the right-side panel showing the file properties).
 - The downloaded notebook will show up on the lower-right side panel under files. Please note that you RStudio environment is separate from your project space, so the files you are working on during your session need to be uploaded to your project before terminating the session. This can be done using [`dx upload`](https://documentation.dnanexus.com/user/objects/uploading-and-downloading-files/small-sets-of-files/uploading-using-dx) in the terminal.
+
+
+# Applets
+
+**spark-example-applet:** This applet takes as an input a field id (in DNAnexus format, e.g. participant.p31) and outputs the mean for that field. It is intended as a test/example of a applet enabled to access the Spark dataset within the project the applet is built in. 
+
+`dx run spark-example-applet -ifield_id=participant.p31`
+
+Additional information on the applet can be found in its corresponding folder within the **dnanexus-applets** folder.
+
+## How to build and run an existing applet
+
+1. Login to DNx via the command line using `dx login`
+2. Select the project you wish to build the applet in using `dx select`
+3. Build the applet using `dx build -a <applet directory>`
+4. Run the applet using `dx run <applet name> -i<input name>=<input>`. Alternatively use `dx run <applet name>` and you will be prompted to enter inputs.
 
