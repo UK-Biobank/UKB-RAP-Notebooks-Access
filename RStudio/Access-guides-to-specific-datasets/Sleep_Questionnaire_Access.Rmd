@@ -1,0 +1,119 @@
+---
+title: "Access the Sleep Questionnaire data in RStudio"
+output: html_notebook
+---
+
+# Overview
+
+This notebook demonstrates how to explore and extract the phenotypic sleep data from the participant data entity on UK Biobank RAP using RStudio. The workflow is similar to the Python Sleep Questionnaire notebook (https://github.com/UK-Biobank/UKB-RAP-Notebooks-Access/blob/main/JupyterNotebook_Python/Access-guides-to-specific-datasets/Sleep_Questionnaire_Access.ipynb).
+
+
+# Requirements
+
+- Start an RStudio session
+
+### Run information
+
+- Runtime:  5 minutes (+ 10 minutes for Table Exporter job)
+- Recommended Instance:  mem1_hdd1_v2_x8
+- Estimated Cost: < £0.10 (+ < £0.10 for Table Exporter job)
+
+Please note that increasing the number of fields and/or categories to be exported will increase the time and cost required for the Table Exporter job.
+
+### Important notes
+
+- There is not a set duration for your RStudio session. Once you finish your analysis and have uploaded the files you would like to save, make sure **you terminate** your session to avoid incurring additional costs, even if you are not running any analysis.
+
+- The [UK Biobank Community forum](https://community.ukbiobank.ac.uk/hc/en-gb/community/posts/26387043393821) details an issue with the encoding values in fields 30549:30554, where certain values are not being mapped correctly to encoding_id 2569 using the "replace" coding option.
+* The table exporter method section described below includes the option to export raw data. This raw data contains the encoded values (e.g., 0 and 1) rather than the 'meanings' (e.g., 'prefer not to answer'). Encoded values can be replaced accurately with meanings using the esimpint.tsv file in the Showcase Metadata folder of your project.
+
+# Set Up Required Packages
+
+```{r setup}
+
+pkg <- c("data.table", "dplyr", "readr")
+
+# Identify uninstalled packages that are required
+new.pkg <- pkg[!(pkg %in% installed.packages())]
+# Install any packages from the list that are not currently installed
+if (length(new.pkg)) {
+  install.packages(new.pkg, repos = "http://cran.rstudio.com")
+}
+
+# Load packages
+library(data.table) # fast and efficient data handling
+library(dplyr) # for data manipulation
+library(readr) # reading and writing tabular data in R
+```
+
+-   To avoid installing packages each time you initialise a session, you can save the workspace you are working in using the dx command [`dx-backup-folder`](https://dnanexus.gitbook.io/uk-biobank-rap/working-on-the-research-analysis-platform/using-rstudio-on-the-research-analysis-platform#backing-up-workspace-to-the-project) and restore it using [`dx-restore-folder`](https://dnanexus.gitbook.io/uk-biobank-rap/working-on-the-research-analysis-platform/using-rstudio-on-the-research-analysis-platform#restoring-a-workspace).
+
+
+# Connect to the dataset
+
+```{r setup}
+
+# Retrieve project ID and dataset record to form dataset ID.
+# Note: If a data refresh has been performed, multiple datasets may exist. The code below for record ensures that the most recent dataset is retrieved.
+
+project <- Sys.getenv("DX_PROJECT_CONTEXT_ID")
+record <- system("dx find data --type Dataset --delimiter ',' | sort -t ',' -k2,2r | head -n1 | awk -F ',' '{print $5}'", intern = TRUE)
+DATASET_ID <- paste0(project, ":", record)
+```
+
+# Download and identify the relevant fields from the field metadata
+
+```{r setup}
+
+# The field.tsv file contains detailed meta-data to describe each field. This includes a field title that matches between the data Showcase and the UK Biobank RAP.
+
+# Get the file ID for field.tsv, download the file from your project space, and then read the downloaded file. 
+field_file <- system("dx find data --name 'field.tsv' --brief", intern=TRUE)
+system(paste("dx download", field_file))
+field_table <- read_tsv("field.tsv")
+
+# Identify the relevant sleep questionnaire fields
+# The subcategories of category 205 include the data from the sleep questionnaire. Categories are listed here for simplicity but could instead be extracted from the catbrowse.tsv file in the Showcase metadata folder of every project.
+sleep_categories <- c(206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216)
+sleep_category_fields <- field_table %>% filter(main_category %in% sleep_categories)
+print(head(sleep_category_fields))
+
+# We'll demonstrate two methods for extracting the relevant data:
+# First, using the field titles.
+# Second, using the DNAnexus field names. These are structured p<ukb file id> so UK Biobank field ID 30427 would become p30427. For more information on Instancing, including the field name structure for fields with multiple instances, see: https://community.ukbiobank.ac.uk/hc/en-gb/articles/15955986227357-What-is-an-instance-index.
+
+sleep_category_titles <- sleep_category_fields$title
+print(sleep_category_titles[1])
+
+sleep_category_field_ids <- paste0("p", sleep_category_fields$field_id)
+sleep_category_field_ids <- c(sleep_category_field_ids, "eid") # manually add eid column to the list
+print(sleep_category_field_ids[1])
+```
+
+# Retrieve data using data exporter
+
+```{r setup}
+
+# Write the list of relevant fields to a file that will be used as input for the table exporter application.
+
+timestamp <- format(Sys.time(), "%Y-%m-%d-%H-%M")
+filename <- paste0("sleep_fields_", timestamp,".txt")
+
+write.table(sleep_category_field_ids, file=filename, quote=FALSE, sep="\t", row.names=FALSE, col.names=FALSE)
+
+system(paste("dx upload", filename), intern=TRUE)
+```
+
+# Run the table exporter
+
+The following line will start a table exporter instance. You can view this in the Monitor tab of your project. It will take approximately 10 minutes for this to complete and should cost less than 1p. 
+
+NOTE: If you're not using fields 30549:30554, coding_option=REPLACE can be used without issue. Otherwise, filtering the esimpint.tsv file for encoding_id == 2569 and joining on value will provide accurate meanings for each relevant column.
+
+```{r setup}
+system(paste0("dx run table-exporter -idataset_or_cohort_or_dashboard=", DATASET_ID, " -ifield_names_file_txt=", filename, " -ientity=participant -ioutput='sleep_data' -iheader_style=FIELD-NAME -icoding_option=RAW"), intern = TRUE) 
+```
+
+Table Exporter can also be run manually from the tools library. Instructions on using Table Exporter interactively can be found at [Table Exporter](https://ukbiobank.dnanexus.com/app/table-exporter).
+
+Once the job is done and your file is saved in your project space, the **A111_Import_Analyse_participant_data.Rmd** notebook gives an overview on uploading your data into an RStudio session and useful tips on running the session.
