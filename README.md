@@ -288,6 +288,44 @@ Next, we examine and visualize the data -- the empirical probability densities f
 
 - cost:  \< £0.10
 
+## A112 Sleep questionnaire access (Python; Spark)
+
+**Scope:** This notebook demonstrates how to explore and extract the phenotypic sleep questionnaire fields from the participant data entity. It covers both the table exporter method (including handling of raw versus replaced coding for fields 30549-30554) and the Spark retrieval method using `dxdata.connect`. It includes identification of sleep questionnaire-related field titles and field IDs, preparation of a field list for table exporter, retrieval of coded and raw values, and exporting to a csv file. Note: fields 30549-30554 have a known "replace" encoding issue, so this notebook exports raw coded values (encoded values).This can be mapped to their corresponding meanings accurately using the esimpint.tsv file.
+
+**Notebook file:** JupyterNotebook_Python/Access-guides-to-specific-datasets/Sleep_Questionnaire_Access.ipynb
+
+**Dependency**
+
+-   A Spark instance
+
+-   Table exporter job
+
+**Run info:**
+
+-   runtime: 15 minutes
+
+-   recommended instance: mem1_ssd1_v2_x8
+
+-   cost: \<£0.30
+
+## A113 Sleep questionnaire access (R; RStudio)
+
+**Scope:** This RStudio notebook demonstrates how to explore and extract the phenotypic sleep questionnaire fields from the participant data entity. It mirrors the A112 Python table exporter approach, using `field.tsv` metadata to identify sleep questionnaire-related fields, generating a list of fields to be picked up by table exporter, and running table exporter to extract the data. Note: fields 30549-30554 have a known "replace" encoding issue, so this notebook exports raw coded values (encoded values).This can be mapped to their corresponding meanings accurately using the esimpint.tsv file.
+
+**Notebook file:** RStudio/Access-guides-to-specific-datasets/Sleep_Questionnaire_Access.Rmd
+
+**Dependency** 
+
+-   Table exporter job
+
+**Run info:**
+
+- runtime: 5 minutes (+ 10 minutes for Table Exporter job)
+
+- recommended instance: mem1_hdd1_v2_x8
+
+- cost:  \< £0.10 (+ \< £0.10 for Table Exporter job)
+
 ### 
 
 ## How to run Jupyter notebooks on the RAP
