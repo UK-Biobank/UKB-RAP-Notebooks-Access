@@ -51,7 +51,7 @@ library(readr) # reading and writing tabular data in R
 
 # Connect to the dataset
 
-```{r setup}
+```{r}
 
 # Retrieve project ID and dataset record to form dataset ID.
 # Note: If a data refresh has been performed, multiple datasets may exist. The code below for record ensures that the most recent dataset is retrieved.
@@ -63,7 +63,7 @@ DATASET_ID <- paste0(project, ":", record)
 
 # Download and identify the relevant fields from the field metadata
 
-```{r setup}
+```{r}
 
 # The field.tsv file contains detailed meta-data to describe each field. This includes a field title that matches between the data Showcase and the UK Biobank RAP.
 
@@ -92,7 +92,7 @@ print(sleep_category_field_ids[1])
 
 # Retrieve data using data exporter
 
-```{r setup}
+```{r}
 
 # Write the list of relevant fields to a file that will be used as input for the table exporter application.
 
@@ -110,7 +110,7 @@ The following line will start a table exporter instance. You can view this in th
 
 NOTE: If you're not using fields 30549:30554, coding_option=REPLACE can be used without issue. Otherwise, filtering the esimpint.tsv file for encoding_id == 2569 and joining on value will provide accurate meanings for each relevant column.
 
-```{r setup}
+```{r}
 system(paste0("dx run table-exporter -idataset_or_cohort_or_dashboard=", DATASET_ID, " -ifield_names_file_txt=", filename, " -ientity=participant -ioutput='sleep_data' -iheader_style=FIELD-NAME -icoding_option=RAW"), intern = TRUE) 
 ```
 
