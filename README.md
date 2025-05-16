@@ -304,9 +304,23 @@ It includes:
 
 ## A112 Sleep questionnaire access (Python; Spark)
 
-**Scope:** This notebook demonstrates how to explore and extract the phenotypic sleep questionnaire fields from the participant data entity. It covers both the table exporter method (including handling of raw versus replaced coding for fields 30549-30554) and the Spark retrieval method using `dxdata.connect`. It includes identification of sleep questionnaire-related field titles and field IDs, preparation of a field list for table exporter, retrieval of coded and raw values, and exporting to a csv file. Note: fields 30549-30554 have a known "replace" encoding issue, so this notebook exports raw coded values (encoded values).This can be mapped to their corresponding meanings accurately using the esimpint.tsv file.
+**Scope:**  
+This notebook demonstrates how to explore and extract phenotypic sleep questionnaire fields from the **participant data entity**. It covers both:
 
-**Notebook file:** JupyterNotebook_Python/Access-guides-to-specific-datasets/Sleep_Questionnaire_Access.ipynb
+- The **table exporter method** (including handling of raw vs. replaced coding for fields 30549–30554), and  
+- The **Spark retrieval method** using `dxdata.connect`.
+
+It includes:
+
+- Identification of sleep questionnaire-related field titles and field IDs  
+- Preparation of a field list for the table exporter  
+- Retrieval of coded and raw values  
+- Exporting to a CSV file
+
+> **Note:** Fields **30549–30554** have a known **"replace" encoding issue**, so this notebook exports **raw coded values** (i.e., encoded values). These can be accurately mapped to their corresponding meanings using the `esimpint.tsv` file.
+
+**Notebook path:**  
+`JupyterNotebook_Python/Access-guides-to-specific-datasets/A112_Sleep_Questionnaire_Access.ipynb`
 
 **Dependency**
 
