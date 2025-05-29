@@ -271,6 +271,7 @@ Next, we examine and visualize the data -- the empirical probability densities f
 
 ## A111 Import and Analyse participant data (R; RStudio)
 
+
 **Scope:** This RStudio notebook covers the essential steps for initiating an RStudio session, importing and reading data exported from the other notebooks. It also provides some useful tips for running an RStudio session and some code examples to help explore the UKB data. This notebook uses tabular participant data extracted in the project space.
 
 
@@ -287,6 +288,66 @@ Next, we examine and visualize the data -- the empirical probability densities f
 - recommended instance: mem1_ssd1_v2_x8
 
 - cost:  \< £0.10
+
+## A112 Sleep questionnaire access (Python; Spark)
+
+**Scope:**  
+This notebook demonstrates how to explore and extract phenotypic sleep questionnaire fields from the **participant data entity**. It covers both:
+
+- The **table exporter method** (including handling of raw vs. replaced coding for fields 30549–30554), and  
+- The **Spark retrieval method** using `dxdata.connect`.
+
+It includes:
+
+- Identification of sleep questionnaire-related field titles and field IDs  
+- Preparation of a field list for the table exporter  
+- Retrieval of coded and raw values  
+- Exporting to a CSV file
+
+> **Note:** Fields **30549–30554** have a known **"replace" encoding issue**, so this notebook exports **raw coded values** (i.e., encoded values). These can be accurately mapped to their corresponding meanings using the `esimpint.tsv` file.
+
+**Notebook path:**  
+`JupyterNotebook_Python/Access-guides-to-specific-datasets/A112_Sleep_Questionnaire_Access.ipynb`
+
+**Dependency**
+
+-   A Spark instance
+
+-   Table exporter job
+
+**Run info:**
+
+-   runtime: 15 minutes
+
+-   recommended instance: mem1_ssd1_v2_x8
+
+-   cost: \<£0.30
+
+## A113 Sleep questionnaire access (R; RStudio)
+
+**Scope:**  
+This RStudio notebook demonstrates how to explore and extract phenotypic sleep questionnaire fields from the **participant data entity**. It mirrors the **A112 Python table exporter approach**, using the `field.tsv` metadata to:
+
+- Identify sleep questionnaire-related fields  
+- Generate a list of fields to be inputted to the table exporter  
+- Run the table exporter to extract the data
+
+> **Note:** Fields **30549–30554** have a known **"replace" encoding issue**, so this notebook exports **raw coded values** (i.e., encoded values). These can be accurately mapped to their corresponding meanings using the `esimpint.tsv` file.
+
+**Notebook path:**  
+`RStudio/Access-guides-to-specific-datasets/A113_Sleep_Questionnaire_Access.Rmd`
+
+**Dependency** 
+
+-   Table exporter job
+
+**Run info:**
+
+- runtime: 5 minutes (+ 10 minutes for Table Exporter job)
+
+- recommended instance: mem1_hdd1_v2_x8
+
+- cost:  \< £0.10 (+ \< £0.10 for Table Exporter job)
 
 ### 
 
