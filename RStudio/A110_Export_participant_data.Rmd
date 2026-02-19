@@ -133,10 +133,10 @@ The UKB-RAP column names can be found in the dataset dictionary, which is access
 
 get_dataset_id <- function() {
     project <- Sys.getenv("DX_PROJECT_CONTEXT_ID")
-    record <- system("dx find data --type Dataset --delimiter ',' | awk -F ',' '{print $5}'", intern = TRUE)
+    record <- system("dx find data --type Dataset --delimiter ',' | sort -t ',' -k2,2r | head -n1 | awk -F ',' '{print $5}'", intern = TRUE)      # Selects the latest dataset for extraction when a project contains multiple datasets
     dataset <- list()
     dataset$id <- paste0(project, ":", record)
-    dataset$prefix <- stringr::str_sub(system("dx find data --type Dataset --delimiter ',' | awk -F ',' '{print $4}'", intern = TRUE), 2)
+    dataset$prefix <- stringr::str_sub(system("dx find data --type Dataset --delimiter ',' | sort -t ',' -k2,2r | head -n1 | awk -F ',' '{print $4}'",         intern = TRUE), 2) # Selects the latest dataset for extraction when a project contains multiple datasets
     return(dataset)
 }
 
