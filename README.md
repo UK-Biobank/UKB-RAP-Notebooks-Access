@@ -51,6 +51,12 @@ A110 Export participant data (R; RStudio)
 
 A111 Import and Analyse participant data (R; RStudio)
 
+A112: Sleep questionnaire access (Python; Spark)
+
+A113:Sleep questionnaire access (R; RStudio)
+
+A114: Export Nightingale Metabolomics data (R; Spark)
+
 
 ## **Python and R libraries**
 
@@ -349,6 +355,31 @@ This RStudio notebook demonstrates how to explore and extract phenotypic sleep q
 
 - cost:  \< £0.10 (+ \< £0.10 for Table Exporter job)
 
+## A114 Export Nightingale Metabolomics data (R; Spark)
+
+**Scope:**  
+This notebook demonstrates how to extract and consolidate all relevant NMR Metabolomics data from the database into a single dataset using R. It builds on **A105_Export-participant-data_R.ipynb** but is tailored specifically for **Nightingale data**. The notebook accesses three data categories:
+
+- **Category 220:** 251 metabolomic biomarkers (e.g. field 23474: 3-Hydroxybutyrate)
+- **Category 221:** QC warnings associated with individual data points (e.g. field 23774)
+- **Category 222:** Sample-level processing metrics (e.g. field 20282: Processing Batch)
+
+> **Note:** If you are extracting all NMR Metabolomics data (with all QC metrics), the final dataset should contain ~500,000 rows (participants) and 790 columns.
+
+**Notebook path:**  
+ `JupyterNotebook_R/A114_Export_Nightingale_Metabolomics_data_R.ipynb`
+
+**Dependency** 
+
+-  A Spark instance
+
+**Run info:**
+- runtime: < 15 minutes
+  
+- recommended instance: mem1_hdd1_v2_x16
+
+- cost: <£2.00
+
 ### 
 
 ## How to run Jupyter notebooks on the RAP
@@ -399,4 +430,5 @@ Additional information on the applet can be found in its corresponding folder wi
 2. Select the project you wish to build the applet in using `dx select`
 3. Build the applet using `dx build -a <applet directory>`
 4. Run the applet using `dx run <applet name> -i<input name>=<input>`. Alternatively use `dx run <applet name>` and you will be prompted to enter inputs.
+
 
